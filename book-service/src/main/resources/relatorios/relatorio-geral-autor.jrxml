@@ -1,0 +1,211 @@
+<!-- Created with Jaspersoft Studio version 7.0.3.final using JasperReports Library version 7.0.3-41034ca841d452f3305ba55b9042260aaa1ab5dd  -->
+<jasperReport name="relatorio-geral-autor" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7b41a5ab-d45a-46a1-a7fe-f1b7fa98bbaf">
+	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<dataset name="vendasPorAutor" uuid="e295610b-766e-4781-833d-4c60696ded42">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+		<query language="sql"><![CDATA[]]></query>
+		<field name="codigo" class="java.lang.String">
+			<property name="net.sf.jasperreports.sql.field.column.name" value="Codigo"/>
+			<property name="net.sf.jasperreports.sql.field.column.label" value="Codigo"/>
+		</field>
+		<field name="autor" class="java.lang.String">
+			<property name="net.sf.jasperreports.sql.field.column.name" value="Autor"/>
+			<property name="net.sf.jasperreports.sql.field.column.label" value="Autor"/>
+		</field>
+		<field name="dataAtualizacao" class="java.util.Date">
+			<property name="net.sf.jasperreports.sql.field.column.name" value="Data Atualização"/>
+			<property name="net.sf.jasperreports.sql.field.column.label" value="Data Atualização"/>
+		</field>
+		<field name="vendaTotal" class="java.math.BigDecimal">
+			<property name="net.sf.jasperreports.sql.field.column.name" value="Total Vendas"/>
+			<property name="net.sf.jasperreports.sql.field.column.label" value="Total Vendas"/>
+		</field>
+		<field name="assuntos" class="java.lang.String"/>
+		<field name="livros" class="java.lang.String"/>
+		<field name="qtdLivros" class="java.lang.Integer"/>
+		<field name="qtdAssuntos" class="java.lang.Integer"/>
+	</dataset>
+	<parameter name="vendasPorAutor" class="java.util.List"/>
+	<query language="sql"><![CDATA[]]></query>
+	<field name="codigo" class="java.lang.String"/>
+	<field name="autor" class="java.lang.String"/>
+	<field name="dataAtualizacao" class="java.util.Date"/>
+	<field name="vendaTotal" class="java.math.BigDecimal"/>
+	<background splitType="Stretch"/>
+	<title height="79" splitType="Stretch">
+		<element kind="staticText" uuid="8c6fec92-9ea6-4947-a154-d7af5b8827e8" x="0" y="13" width="263" height="33" fontName="DialogInput" fontSize="24.0" vTextAlign="Middle">
+			<text><![CDATA[Relatório Geral]]></text>
+		</element>
+	</title>
+	<summary height="300" splitType="Stretch">
+		<element kind="component" uuid="37f3ab3a-2f94-4039-a405-90e16ce0e004" x="0" y="15" width="549" height="270">
+			<component kind="table">
+				<datasetRun uuid="d21accb1-0871-4112-bef4-c9de439d8c81" subDataset="vendasPorAutor">
+					<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{vendasPorAutor})]]></dataSourceExpression>
+				</datasetRun>
+				<column kind="single" uuid="40550d18-6f06-4c6d-8f41-770637a3fd56" width="40">
+					<tableHeader height="30" rowSpan="1" style="Table_TH"/>
+					<tableFooter height="30" rowSpan="1" style="Table_TH"/>
+					<columnHeader height="30" rowSpan="1" style="Table_CH">
+						<element kind="textField" uuid="474cfdf3-116b-4182-b86e-c1bbb0813ed1" x="0" y="0" width="40" height="30">
+							<expression><![CDATA["Código"]]></expression>
+						</element>
+					</columnHeader>
+					<columnFooter height="30" rowSpan="1" style="Table_CH"/>
+					<detailCell height="30" style="Table_TD">
+						<element kind="textField" uuid="3092fe3f-9645-4b3a-a59a-e7a5392f7f8e" x="0" y="0" width="40" height="30">
+							<expression><![CDATA[$F{codigo}]]></expression>
+						</element>
+					</detailCell>
+					<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+				</column>
+				<column kind="single" uuid="3163ef8a-f160-47aa-b7ba-1753a7c50e6c" width="80">
+					<tableHeader height="30" rowSpan="1" style="Table_TH"/>
+					<tableFooter height="30" rowSpan="1" style="Table_TH"/>
+					<columnHeader height="30" rowSpan="1" style="Table_CH">
+						<element kind="textField" uuid="d13dc836-2b2f-4783-84d3-0ce9616feea9" x="0" y="0" width="80" height="30">
+							<expression><![CDATA["Autor"]]></expression>
+						</element>
+					</columnHeader>
+					<columnFooter height="30" rowSpan="1" style="Table_CH"/>
+					<detailCell height="30" style="Table_TD">
+						<element kind="textField" uuid="570cdf22-4a82-4687-8d3c-65d7d14570a9" x="0" y="0" width="80" height="30">
+							<expression><![CDATA[$F{autor}]]></expression>
+						</element>
+					</detailCell>
+					<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+				</column>
+				<column kind="single" uuid="198ee514-f405-44bf-a039-4b5bf2779b6b" width="80">
+					<tableHeader height="30" rowSpan="1" style="Table_TH"/>
+					<tableFooter height="30" rowSpan="1" style="Table_TH"/>
+					<columnHeader height="30" rowSpan="1" style="Table_CH">
+						<element kind="textField" uuid="e8b8beb5-e358-4dc7-ba65-69f92c5f8e54" x="0" y="0" width="80" height="30">
+							<expression><![CDATA["Assuntos"]]></expression>
+						</element>
+					</columnHeader>
+					<columnFooter height="30" rowSpan="1" style="Table_CH"/>
+					<detailCell height="30" style="Table_TD">
+						<element kind="textField" uuid="ad9027db-258b-4d11-ba8a-6b57ee6d0bae" x="0" y="0" width="80" height="30">
+							<expression><![CDATA[$F{assuntos}]]></expression>
+						</element>
+					</detailCell>
+					<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+				</column>
+				<column kind="single" uuid="ec38dbef-18e5-4d08-afa8-5b687319285e" width="130">
+					<tableHeader height="30" rowSpan="1" style="Table_TH"/>
+					<tableFooter height="30" rowSpan="1" style="Table_TH"/>
+					<columnHeader height="30" rowSpan="1" style="Table_CH">
+						<element kind="textField" uuid="31b561cb-f13b-44fb-ae1c-d8b37738c534" x="0" y="0" width="130" height="30">
+							<expression><![CDATA["Livros"]]></expression>
+						</element>
+					</columnHeader>
+					<columnFooter height="30" rowSpan="1" style="Table_CH"/>
+					<detailCell height="30" style="Table_TD">
+						<element kind="textField" uuid="241cb9c3-d4b0-4baa-89a5-df172a06d9e4" x="0" y="0" width="130" height="30">
+							<expression><![CDATA[$F{livros}]]></expression>
+						</element>
+					</detailCell>
+					<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+				</column>
+				<column kind="single" uuid="e6f24de5-db51-4e1a-81ea-3ad75ae980bc" width="40">
+					<tableHeader height="30" rowSpan="1" style="Table_TH"/>
+					<tableFooter height="30" rowSpan="1" style="Table_TH"/>
+					<columnHeader height="30" rowSpan="1" style="Table_CH">
+						<element kind="textField" uuid="fdbb06df-1825-4b55-9873-9bd72b28605f" x="0" y="0" width="40" height="30">
+							<expression><![CDATA["Total de Livros"]]></expression>
+						</element>
+					</columnHeader>
+					<columnFooter height="30" rowSpan="1" style="Table_CH"/>
+					<detailCell height="30" style="Table_TD">
+						<element kind="textField" uuid="608ebca6-f2f0-4c28-aaf9-5db2b7d6f0f6" x="0" y="0" width="40" height="30">
+							<expression><![CDATA[$F{qtdLivros}]]></expression>
+						</element>
+					</detailCell>
+					<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+				</column>
+				<column kind="single" uuid="150b17fa-7b49-4045-9ad0-62e06852723e" width="50">
+					<tableHeader height="30" rowSpan="1" style="Table_TH"/>
+					<tableFooter height="30" rowSpan="1" style="Table_TH"/>
+					<columnHeader height="30" rowSpan="1" style="Table_CH">
+						<element kind="textField" uuid="42d99ee5-2313-47f2-b6f1-8abdc4ddce83" x="0" y="0" width="50" height="30">
+							<expression><![CDATA["Total de Assuntos"]]></expression>
+						</element>
+					</columnHeader>
+					<columnFooter height="30" rowSpan="1" style="Table_CH"/>
+					<detailCell height="30" style="Table_TD">
+						<element kind="textField" uuid="01002e0e-677c-4062-a2c0-c0296946e5bd" x="0" y="0" width="50" height="30">
+							<expression><![CDATA[$F{qtdAssuntos}]]></expression>
+						</element>
+					</detailCell>
+					<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
+				</column>
+				<column kind="single" uuid="caee9145-e742-4da7-a4a4-6f77b5df58c1" width="70">
+					<tableHeader height="30" rowSpan="1" style="Table_TH"/>
+					<tableFooter height="30" rowSpan="1" style="Table_TH"/>
+					<columnHeader height="30" rowSpan="1" style="Table_CH">
+						<element kind="textField" uuid="39b12353-24c1-4a83-b018-bd97355bee46" x="0" y="0" width="70" height="30">
+							<expression><![CDATA["Data de Atualização"]]></expression>
+						</element>
+					</columnHeader>
+					<columnFooter height="30" rowSpan="1" style="Table_CH"/>
+					<detailCell height="30" style="Table_TD">
+						<element kind="textField" uuid="ba2df702-508a-4ca1-83a2-c1acd2c14643" x="0" y="0" width="70" height="30" pattern="dd/MM/yyyy">
+							<expression><![CDATA[$F{dataAtualizacao}]]></expression>
+						</element>
+					</detailCell>
+					<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
+				</column>
+				<column kind="single" uuid="8b54c19d-1ce2-4d88-b5d8-e72bd400d70b" width="80">
+					<tableHeader height="30" rowSpan="1" style="Table_TH"/>
+					<tableFooter height="30" rowSpan="1" style="Table_TH"/>
+					<columnHeader height="30" rowSpan="1" style="Table_CH">
+						<element kind="textField" uuid="d9e77a70-79a6-49f1-bbd2-94cc74219f6c" x="0" y="0" width="80" height="30">
+							<expression><![CDATA["Total em Vendas"]]></expression>
+						</element>
+					</columnHeader>
+					<columnFooter height="30" rowSpan="1" style="Table_CH"/>
+					<detailCell height="30" style="Table_TD">
+						<element kind="textField" uuid="8c6f4fa6-2e15-4481-9a76-9b57a503a7ca" x="0" y="0" width="80" height="30" pattern="R$ #,##0.00">
+							<expression><![CDATA[$F{vendaTotal}]]></expression>
+						</element>
+					</detailCell>
+					<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column8"/>
+				</column>
+			</component>
+			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+			<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+			<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+			<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+			<property name="com.jaspersoft.studio.unit.x" value="px"/>
+		</element>
+		<element kind="line" uuid="553ce952-c410-4ce1-9238-8dd45ec46398" positionType="FixRelativeToBottom" x="10" y="1" width="555" height="1">
+			<pen lineWidth="0.5" lineColor="#999999"/>
+		</element>
+	</summary>
+</jasperReport>

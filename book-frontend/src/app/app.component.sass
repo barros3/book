@@ -1,0 +1,103 @@
+.navbar
+  &-brand
+    font-size: 1.5rem
+    font-weight: bold
+  
+
+  &-toggler
+    border: none
+    &:focus
+      outline: none
+
+  &-nav
+    .nav-item
+      &.dropdown
+        position: relative
+
+        .nav-link
+          &:hover
+            color: #0056b3 // Cor ao passar o mouse
+
+          .dropdown-menu
+            display: none
+            position: absolute
+            top: 100%
+            left: 0
+            z-index: 1000
+            float: left
+            min-width: 10rem
+            padding: 0.5rem 0
+            margin: 0.125rem 0 0
+            font-size: 1rem
+            color: #212529
+            text-align: left
+            list-style: none
+            background-color: #fff
+            background-clip: padding-box
+            border: 1px solid rgba(0, 0, 0, 0.15)
+            border-radius: 0.25rem
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.175)
+
+            .dropdown-item
+              display: block
+              width: 100%
+              padding: 0.25rem 1.5rem
+              clear: both
+              font-weight: 400
+              color: #212529
+              text-align: inherit
+              white-space: nowrap
+              background-color: transparent
+              border: 0
+
+              &:hover,
+              &:focus
+                color: #0056b3
+                background-color: #f8f9fa
+            
+            &:hover
+              display: block
+            
+          
+        
+      
+    
+  
+
+
+.nav-item
+  position: relative
+
+
+.dropdown-menu
+  display: none
+  position: absolute
+  top: 100%
+  left: 0
+  width: 100%
+  background-color: #fff
+  border: 1px solid #ccc
+  border-radius: 5px
+  padding: 10px
+  z-index: 1
+
+
+.nav-item:hover .dropdown-menu
+  display: block
+
+
+.navbar-brand
+  margin: 0 auto
+  float: none
+
+
+.navbar-nav
+  margin: 0 auto
+  display: flex
+  justify-content: center
+
+
+.nav-menu
+  max-width: 100%
+  flex-direction: column
+  align-items: center

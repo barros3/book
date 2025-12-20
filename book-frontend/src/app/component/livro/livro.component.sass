@@ -1,0 +1,107 @@
+/* Tabela */
+
+.table
+  width: 100%
+  border-collapse: collapse
+  margin-bottom: 20px
+
+
+.table thead th
+  background-color: #f0f0f0
+  border-bottom: 1px solid #ccc
+  padding: 10px
+  text-align: left
+
+.table tbody td
+  padding: 10px
+  border-bottom: 1px solid #ccc
+
+.table tbody tr:hover
+  background-color: #f9f9f9
+
+.btn
+  padding: 10px 20px
+  border: none
+  border-radius: 5px
+  font-size: 16px
+  cursor: pointer
+
+.btn-primary
+  background-color: #337ab7
+  color: #fff
+
+.btn-green
+  background-color: #21912BFF !important
+  color: #fff
+
+.btn-yellow
+  background-color: #EBDC0FFF !important
+  color: #fff
+
+.btn-danger
+  background-color: #d9534f !important
+  color: #fff !important
+
+.modal
+  position: relative
+  top: 50%
+  left: 50%
+  transform: translate(-50%, -50%)
+  background-color: rgba(0, 0, 0, 0.5)
+  display: flex
+  justify-content: center
+  align-items: center
+  opacity: 0
+  visibility: hidden
+  transition: opacity 0.3s ease, visibility 0.3s ease
+
+  &.show
+    opacity: 1
+    visibility: visible
+  
+.modal-content
+  width: 35%
+  background-color: #f0f0f0
+  padding: 20px
+  border-radius: 10px
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2)
+  
+.modal-header
+  padding: 10px
+  border-bottom: 1px solid #ddd
+  display: flex
+  justify-content: space-between
+  align-items: center
+  
+.modal-title
+  font-size: 1.5rem
+  font-weight: bold
+  color: #333
+
+.modal-body
+  padding: 20px
+  text-align: center
+  
+.mb-2
+  font-size: 1.2rem
+  font-weight: bold
+  color: #333
+
+.modal-footer
+  padding: 10px
+  border-top: 1px solid #ddd
+  display: flex
+  justify-content: flex-end
+  
+.btn
+  padding: 10px 20px
+  border: none
+  border-radius: 5px
+  background-color: #007bff
+  color: #fff
+  font-weight: bold
+  cursor: pointer
+
+  &:hover
+    background-color: #0056b3
+     

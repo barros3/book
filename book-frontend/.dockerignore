@@ -1,0 +1,10 @@
+echo "node_modules
+dist
+.angular
+.vscode
+*.log
+.git
+.gitignore
+README.md
+.editorconfig
+.browserslistrc" > book-frontend/.dockerignore

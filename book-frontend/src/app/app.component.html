@@ -1,0 +1,24 @@
+<nav class="navbar nav-menu navbar-expand-lg navbar-dark bg-primary">
+  <a class="navbar-brand" href="#">Biblioteca API</a>
+  <button class="navbar-toggler" type="button" (click)="toggleNavbar()">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav" [class.collapse]="isNavbarCollapsed">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item active">
+        <a class="nav-link" routerLink="/livro">Livro<span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/autor">Autor</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/assunto">Assunto</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/relatorio">Relatorio</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<router-outlet></router-outlet>

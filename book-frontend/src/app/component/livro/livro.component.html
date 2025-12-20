@@ -1,0 +1,41 @@
+2<div class="container">
+  <div class="form-container">
+    <div class="form-row"><br /></div>
+    <div class="form-row">
+      <div class="col-md-10">
+        <h2>Livros</h2>
+      </div>
+      <div class="col-md-2">
+        <button class="btn bg-success text-white" (click)="addLivro()">Cadastrar</button>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="col-md-4">
+        <input type="text" class="form-control" [(ngModel)]="searchTerm" placeholder="Pesquisar por ID">
+      </div>
+    </div>
+    <div class="form-row"><br /></div>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th class="text-center">Título</th>
+          <th class="text-center">Editora</th>
+          <th class="text-center">Edição</th>
+          <th class="text-center">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let livro of livros | filter: searchTerm:'livros'">
+          <td class="text-center">{{livro.titulo}}</td>
+          <td class="text-center">{{livro.editora}}</td>
+          <td class="text-center">{{livro.edicao}}</td>
+          <td class="d-flex justify-content-center">
+            <button class="btn btn-primary me-2" (click)="viewLivro(livro)">Visualizar</button>
+            <button class="btn btn-yellow me-2" (click)="editLivro(livro)">Alterar</button>
+            <button class="btn btn-danger" (click)="removeLivro(livro)">Remover</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

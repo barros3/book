@@ -1,0 +1,15 @@
+<div class="modal" [ngClass]="['show', show ? 'show' : '']">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">{{data.title}}</h2>
+      </div>
+      <div class="modal-body text-center p-4">
+        <p class="mb-2">{{ data.code }}</p>
+        <p>{{ data.message }}</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline-primary" (click)="closeModal()">Fechar</button>
+      </div>
+    </div>
+  </div>
+  

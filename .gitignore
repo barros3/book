@@ -1,0 +1,33 @@
+# Angular
+BOOK/book-frontend/.angular/
+BOOK/book-frontend/node_modules/
+BOOK/book-frontend/dist/
+BOOK/book-frontend/.cache/
+
+# Geral
+**/node_modules/
+**/dist/
+**/.DS_Store
+
+# Angular cache
+.angular/
+
+# Dependências
+/node_modules/
+/.pnp/
+.pnp.js
+
+# Produção
+/dist/
+
+# Cache
+/.cache/
+
+# Cobertura
+/coverage/
+
+# IDE
+/.idea/
+/.vscode/
+*.swp
+*.swo

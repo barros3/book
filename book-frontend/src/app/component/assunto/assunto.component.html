@@ -1,0 +1,56 @@
+<div class="container">
+  <div class="form-container">
+    <div class="form-row"><br /></div>
+    <div class="form-row">
+      <div class="col-md-10">
+        <h2>Assuntos</h2>
+      </div>
+      <div class="col-md-2">
+        <button class="btn bg-success text-white" (click)="addAssunto()">Cadastrar</button>
+      </div>
+    </div>
+    
+    <div class="form-row">
+      <div class="col-md-4">
+        <input type="text" class="form-control" [(ngModel)]="searchTerm" placeholder="Pesquisar por descrição">
+      </div>
+    </div>
+    
+    <div class="form-row"><br /></div>
+    
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="text-center">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Carregando...</span>
+      </div>
+      <p>Carregando assuntos...</p>
+    </div>
+    
+    <!-- Tabela de Assuntos -->
+    <div *ngIf="!isLoading">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th class="text-center">Código</th>
+            <th class="text-center">Descrição</th>
+            <th class="text-center">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let assunto of assuntos | filter: searchTerm:'assuntos'">
+            <td class="text-center">{{assunto.codAs || 'N/A'}}</td>
+            <td class="text-center">{{assunto.descricao || 'Não informado'}}</td>
+            <td class="d-flex justify-content-center">
+              <button class="btn btn-primary me-2" (click)="viewAssunto(assunto)">Visualizar</button>
+              <button class="btn btn-warning me-2" (click)="editAssunto(assunto)">Alterar</button>
+              <button class="btn btn-danger" (click)="removeAssunto(assunto)">Remover</button>
+            </td>
+          </tr>
+          <tr *ngIf="assuntos.length === 0">
+            <td colspan="3" class="text-center">Nenhum assunto cadastrado.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

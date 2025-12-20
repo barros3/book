@@ -1,0 +1,83 @@
+<div class="modal show">
+  <div class="modal-content" [ngClass]="{'modal-lg': isViewMode}">
+    <div class="modal-header">
+      <h2 class="modal-title">{{title}}</h2>
+      <button type="button" class="close" (click)="closeModal()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    
+    <div class="modal-body">
+      <!-- Loading State -->
+      <div *ngIf="isLoading" class="text-center">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Carregando...</span>
+        </div>
+        <p>Carregando dados do autor...</p>
+      </div>
+      
+      <!-- Conteúdo Principal -->
+      <div *ngIf="!isLoading">
+        <form class="autor-form">
+          <div class="row mb-3">
+            <div class="col-md-12">
+              <label for="nome"><strong>Nome *</strong></label>
+              <input 
+                type="text" 
+                class="form-control" 
+                id="nome" 
+                [(ngModel)]="autor.nome" 
+                name="nome"
+                [disabled]="isViewMode"
+                required>
+            </div>
+          </div>
+          
+          <!-- Informações extras podem ser adicionadas aqui -->
+          <div *ngIf="isViewMode" class="row mb-3">
+            <div class="col-md-6">
+              <label for="codAu"><strong>Código</strong></label>
+              <input 
+                type="text" 
+                class="form-control" 
+                id="codAu" 
+                [value]="autor.codAu || 'N/A'"
+                disabled>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    
+    <div class="modal-footer">
+      <button 
+        type="button" 
+        class="btn btn-secondary" 
+        (click)="closeModal()">
+        Fechar
+      </button>
+      
+      <!-- Botão de Salvar para CREATE/EDIT -->
+      <button 
+        *ngIf="isEditMode && actionType !== 'delete'"
+        type="button" 
+        class="btn btn-primary" 
+        (click)="salvarAutor()"
+        [disabled]="isLoading || !autor.nome">
+        <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-1"></span>
+        {{ actionType === 'create' ? 'Cadastrar' : 'Salvar Alterações' }}
+      </button>
+      
+      <!-- Botão de Remover para DELETE -->
+      <button 
+        *ngIf="actionType === 'delete'"
+        type="button" 
+        class="btn btn-danger" 
+        (click)="confirmDelete()"
+        [disabled]="isLoading">
+        <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-1"></span>
+        Confirmar Remoção
+      </button>
+    </div>
+  </div>
+</div>

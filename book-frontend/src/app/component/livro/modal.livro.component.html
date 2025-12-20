@@ -1,0 +1,321 @@
+<div class="modal show">
+  <div class="modal-content" [ngClass]="{'modal-lg': (isViewMode || isEditMode) && !isDeleteMode}">
+    <div class="modal-header">
+      <h2 class="modal-title">{{title}}</h2>
+      <button type="button" class="close" (click)="closeModal()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    
+    <div class="modal-body">
+      <!-- Loading State Principal -->
+      <div *ngIf="isLoading" class="text-center">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Carregando...</span>
+        </div>
+        <p>Carregando dados do livro...</p>
+      </div>
+      
+      <!-- Conteúdo Principal (não-loading) -->
+      <div *ngIf="!isLoading && !isDeleteMode">
+        <!-- Informações Básicas do Livro -->
+        <div class="card mb-4">
+          <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Informações do Livro</h5>
+          </div>
+          <div class="card-body">
+            <form class="livro-form">
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <label for="titulo"><strong>Título *</strong></label>
+                  <input 
+                    type="text" 
+                    class="form-control" 
+                    id="titulo" 
+                    [(ngModel)]="livro.titulo" 
+                    name="titulo"
+                    [disabled]="isViewMode || isLoading">
+                </div>
+                <div class="col-md-6">
+                  <label for="editora"><strong>Editora *</strong></label>
+                  <input 
+                    type="text" 
+                    class="form-control" 
+                    id="editora" 
+                    [(ngModel)]="livro.editora" 
+                    name="editora"
+                    [disabled]="isViewMode || isLoading">
+                </div>
+              </div>
+              
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <label for="edicao">Edição</label>
+                  <input 
+                    type="number" 
+                    class="form-control" 
+                    id="edicao" 
+                    [(ngModel)]="livro.edicao" 
+                    name="edicao"
+                    [disabled]="isViewMode || isLoading">
+                </div>
+                <div class="col-md-6">
+                  <label for="anoPublicacao">Ano Publicação</label>
+                  <input 
+                    type="text" 
+                    class="form-control" 
+                    id="anoPublicacao" 
+                    [(ngModel)]="livro.anoPublicacao" 
+                    name="anoPublicacao"
+                    maxlength="4"
+                    [disabled]="isViewMode || isLoading">
+                </div>
+              </div>
+              
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <label for="valor">Valor</label>
+                  <input 
+                    type="text" 
+                    class="form-control" 
+                    id="valor" 
+                    [ngModel]="livro.valor | formatRelatorio:'valor'"
+                    (ngModelChange)="onValorChange($event)"
+                    name="valor"
+                    [disabled]="isViewMode || isLoading">
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        
+        <!-- Seção de Relacionamentos para VISUALIZAÇÃO -->
+        <div *ngIf="isViewMode">
+          
+          <!-- Loading dos Relacionamentos -->
+          <div *ngIf="isLoadingRelacionamentos" class="text-center mb-4">
+            <div class="spinner-border spinner-border-sm text-secondary" role="status">
+              <span class="visually-hidden">Carregando...</span>
+            </div>
+            <small>Carregando relacionamentos...</small>
+          </div>
+          
+          <!-- Tabela de Autores Relacionados -->
+          <div *ngIf="autoresRelacionados.length > 0" class="card mb-4">
+            <div class="card-header bg-info text-white">
+              <h5 class="mb-0">Autores Relacionados</h5>
+            </div>
+            <div class="card-body p-0">
+              <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                  <thead class="table-light">
+                    <tr>
+                      <th class="text-center">Código</th>
+                      <th class="text-center">Nome</th>
+                      <th class="text-center">Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let autor of autoresRelacionados">
+                      <td class="text-center">{{autor.codAu || 'N/A'}}</td>
+                      <td class="text-center">{{autor.nome || 'Não informado'}}</td>
+                      <td class="text-center">
+                        <button class="btn btn-sm btn-outline-info" 
+                                (click)="visualizarAutor(autor)"
+                                title="Visualizar Autor">
+                          <i class="bi bi-eye"></i> Visualizar
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Tabela de Assuntos Relacionados -->
+          <div *ngIf="assuntosRelacionados.length > 0" class="card mb-4">
+            <div class="card-header bg-success text-white">
+              <h5 class="mb-0">Assuntos Relacionados</h5>
+            </div>
+            <div class="card-body p-0">
+              <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                  <thead class="table-light">
+                    <tr>
+                      <th class="text-center">Código</th>
+                      <th class="text-center">Descrição</th>
+                      <th class="text-center">Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let assunto of assuntosRelacionados">
+                      <td class="text-center">{{assunto.codAs || 'N/A'}}</td>
+                      <td class="text-center">{{assunto.descricao || 'Não informado'}}</td>
+                      <td class="text-center">
+                        <button class="btn btn-sm btn-outline-success" 
+                                (click)="visualizarAssunto(assunto)"
+                                title="Visualizar Assunto">
+                          <i class="bi bi-eye"></i> Visualizar
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Mensagem quando não há relacionamentos -->
+          <div *ngIf="!hasRelacionamentos() && !isLoadingRelacionamentos" class="alert alert-info">
+            <i class="bi bi-info-circle"></i> Este livro não possui autores ou assuntos relacionados.
+          </div>
+        </div>
+
+        <!-- Seção de Relacionamentos para EDIÇÃO/CRIAÇÃO -->
+        <div *ngIf="isEditMode">
+          
+          <!-- Autores -->
+          <div class="card mb-4">
+            <div class="card-header bg-info text-white">
+              <h5 class="mb-0">
+                Autores
+                <span *ngIf="isLoadingAutores" class="badge bg-light text-dark ms-2">
+                  <span class="spinner-border spinner-border-sm" role="status"></span>
+                  Carregando...
+                </span>
+              </h5>
+            </div>
+            <div class="card-body">
+              <div class="mb-3">
+                <label for="autoresSelect"><strong>Selecione os Autores</strong></label>
+                <select 
+                  id="autoresSelect"
+                  class="form-control" 
+                  multiple
+                  [(ngModel)]="selectedAutores"
+                  [compareWith]="compararPorId"
+                  [disabled]="isLoadingAutores">
+                  <option *ngFor="let autor of autoresDisponiveis" [ngValue]="autor.codAu">
+                    {{autor.nome}} (Código: {{autor.codAu}})
+                  </option>
+                </select>
+                <small class="form-text text-muted">
+                  Mantenha Ctrl (ou Cmd) pressionado para selecionar múltiplos autores.
+                </small>
+              </div>
+              
+              <!-- Autores selecionados -->
+              <div *ngIf="selectedAutores.length > 0">
+                <h6>Autores Selecionados:</h6>
+                <div class="d-flex flex-wrap gap-2">
+                  <span *ngFor="let autorId of selectedAutores" class="badge bg-info">
+                    {{ getAutorNome(autorId) }}
+                    <button type="button" class="btn-close btn-close-white ms-1" 
+                            (click)="removerAutor(autorId)" aria-label="Remover"></button>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Assuntos -->
+          <div class="card mb-4">
+            <div class="card-header bg-success text-white">
+              <h5 class="mb-0">
+                Assuntos
+                <span *ngIf="isLoadingAssuntos" class="badge bg-light text-dark ms-2">
+                  <span class="spinner-border spinner-border-sm" role="status"></span>
+                  Carregando...
+                </span>
+              </h5>
+            </div>
+            <div class="card-body">
+              <div class="mb-3">
+                <label for="assuntosSelect"><strong>Selecione os Assuntos</strong></label>
+                <select 
+                  id="assuntosSelect"
+                  class="form-control" 
+                  multiple
+                  [(ngModel)]="selectedAssuntos"
+                  [compareWith]="compararPorId"
+                  [disabled]="isLoadingAssuntos">
+                  <option *ngFor="let assunto of assuntosDisponiveis" [ngValue]="assunto.codAs">
+                    {{assunto.descricao}} (Código: {{assunto.codAs}})
+                  </option>
+                </select>
+                <small class="form-text text-muted">
+                  Mantenha Ctrl (ou Cmd) pressionado para selecionar múltiplos assuntos.
+                </small>
+              </div>
+              
+              <!-- Assuntos selecionados -->
+              <div *ngIf="selectedAssuntos.length > 0">
+                <h6>Assuntos Selecionados:</h6>
+                <div class="d-flex flex-wrap gap-2">
+                  <span *ngFor="let assuntoId of selectedAssuntos" class="badge bg-success">
+                    {{ getAssuntoDescricao(assuntoId) }}
+                    <button type="button" class="btn-close btn-close-white ms-1" 
+                            (click)="removerAssunto(assuntoId)" aria-label="Remover"></button>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+        <!-- Seção de Exclusão -->
+        <div *ngIf="isDeleteMode" class="card">
+          <div class="card-header bg-danger text-white">
+            <h5 class="mb-0">Confirmação de Exclusão</h5>
+          </div>
+          <div class="card-body text-center">
+            <div class="alert alert-warning">
+              <i class="bi bi-exclamation-triangle-fill"></i>
+              <h4>Atenção!</h4>
+              <p>Você está prestes a remover o livro:</p>
+              <h3 class="text-danger">{{livro.titulo}}</h3>
+              <p><strong>Editora:</strong> {{livro.editora}}</p>
+              <p><strong>Edição:</strong> {{livro.edicao}}</p>
+              <p>Esta ação não pode ser desfeita.</p>
+            </div>
+            
+
+          </div>
+        </div>
+    </div>
+    
+    <div class="modal-footer">
+      <button 
+        type="button" 
+        class="btn btn-secondary" 
+        (click)="closeModal()">
+        Fechar
+      </button>
+      
+      <!-- Botão de Salvar para CREATE/EDIT -->
+      <button 
+        *ngIf="isEditMode && this.data.actionType !== 'delete'"
+        type="button" 
+        class="btn btn-primary" 
+        (click)="actionLivro()"
+        [disabled]="isLoading || !this.data.title">
+        <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-1"></span>
+        {{ this.data.actionType === 'create' ? 'Cadastrar' : 'Salvar Alterações' }}
+      </button>
+      
+      <!-- Botão de Remover para DELETE -->
+      <button 
+        *ngIf="this.data.actionType === 'delete'"
+        type="button" 
+        class="btn btn-danger" 
+        (click)="confirmDelete()"
+        [disabled]="isLoading">
+        <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-1"></span>
+        Confirmar Remoção
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,44 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: book-service
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/biblioteca
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+  hikari:
+    connection-timeout: 30000
+    maximum-pool-size: 10
+    minimum-idle: 5
+    idle-timeout: 600000
+    max-lifetime: 1800000
+    connection-test-query: SELECT 1
+    pool-name: RelatoriosHikariPool
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger
+
+jasperreports:
+  compile:
+    temp:
+      dir: ./temp/jasper
+  export:
+    pdf:
+      force-svg-shapes: true
+      created-on-export: true
