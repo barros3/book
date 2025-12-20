@@ -135,30 +135,33 @@ export class ModalLivroComponent implements OnInit {
   }
 
   // 2. Salvar Livro (CREATE)
-  private saveLivro(): void {
-    this.isLoading = true;
-    this.livroService.save(this.livro).subscribe({
-      next: (response) => {
-        this.handleSuccess(
-          `Livro "${response.titulo}" cadastrado com sucesso!`,
-          response.createdAtLivro || this.formatDate(new Date())
-        );
-        this.isLoading = false;
-        this.dialogRef.close('created'); // Fecha o modal com resultado
-      },
-      error: (error) => {
-        this.handleError(error, 'Erro ao cadastrar livro');
-        this.isLoading = false;
-      }
-    });
-  }
+
+  // private saveLivro(): void {
+  //   this.isLoading = true;
+  //   this.livroService.save(this.livro).subscribe({
+  //     next: (response) => {
+  //       this.handleSuccess(
+  //         `Livro "${response.titulo}" cadastrado com sucesso!`,
+  //         response.createdAtLivro || this.formatDate(new Date())
+  //       );
+  //       this.isLoading = false;
+  //       this.dialogRef.close('created'); // Fecha o modal com resultado
+  //     },
+  //     error: (error) => {
+  //       this.handleError(error, 'Erro ao cadastrar livro');
+  //       this.isLoading = false;
+  //     }
+  //   });
+  // }
 
   // 3. Atualizar Livro (EDIT)
-  private updateLivro(): void {
-    if (!this.livro.codl) return;
+  updateLivro(): void {
+        
+    this.livro.autoresIds = this.selectedAutores;
+    this.livro.assuntosIds = this.selectedAssuntos;
     
     this.isLoading = true;
-    this.livroService.update(this.livro).subscribe({
+    this.livroService.saveCompleto(this.livro).subscribe({
       next: (response) => {
         this.handleSuccess(
           `Livro "${response.titulo}" atualizado com sucesso!`,
@@ -233,16 +236,6 @@ export class ModalLivroComponent implements OnInit {
     });
   }
 
-  // Métodos auxiliares
-  private handleSuccess(message: string, date: string): void {
-    const error = new ResponseError(
-      message,
-      `Data: ${date}`,
-      'Sucesso!'
-    );
-    this.openErrorModal(error);
-  }
-
   private handleError(error: any, defaultMessage: string): void {
     console.error(defaultMessage, error);
     
@@ -311,6 +304,8 @@ export class ModalLivroComponent implements OnInit {
   }
   
 
+  // INCIA TRATAMENTO DOS ASSUNTOS E AUTORES
+
   // tratar
   visualizarAutor(autor: Autor): void {
     // Pode abrir outro modal ou navegar
@@ -351,32 +346,7 @@ export class ModalLivroComponent implements OnInit {
     });
   }
 
-  save(): void {
-    this.isLoading = true;
-    
-    // Prepara objeto completo para enviar
-  const livroParaSalvar = {
-      codL: this.livro.codl, // Explicitamente pegar o codL primeiro
-      ...this.livro,
-      autoresIds: this.selectedAutores,
-      assuntosIds: this.selectedAssuntos
-  };
-    
-    console.log('Enviando livro:', livroParaSalvar);
-    
-    this.livroService.saveCompleto(livroParaSalvar).subscribe({
-      next: (response) => {
-        console.log('Livro salvo com sucesso:', response);
-        this.dialogRef.close('updated');
-        this.isLoading = false;
-      },
-      error: (error) => {
-        console.error('Erro ao salvar livro:', error);
-        this.isLoading = false;
-        // Tratar erro
-      }
-    });
-  }
+  // INCIA TRATAMENTO DOS ASSUNTOS E AUTORES
 
   compararPorId(o1: any, o2: any): boolean {
     if (o1 && o2) {
@@ -417,9 +387,12 @@ removerAssunto(assuntoId: number): void {
       const livroParaSalvar = {
           codL: this.livro.codl,
           ...this.livro,
+          valor: this.livro.valor,
           autoresIds: this.selectedAutores,
           assuntosIds: this.selectedAssuntos
       };
+
+      console.log('livro pra salvar', livroParaSalvar)
         
       console.log('Enviando livro:', livroParaSalvar);
       this.livroService.save(livroParaSalvar).subscribe({
@@ -466,4 +439,16 @@ removerAssunto(assuntoId: number): void {
     
     this.livro.valor = parseFloat(valorLimpo) || 0;
   }
+
+  
+  // Métodos auxiliares
+  private handleSuccess(message: string, date: string): void {
+    const error = new ResponseError(
+      message,
+      `Data: ${date}`,
+      'Sucesso!'
+    );
+    this.openErrorModal(error);
+  }
+
 }

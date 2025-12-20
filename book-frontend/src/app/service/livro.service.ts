@@ -58,7 +58,11 @@ export class LivroService {
   
   if (temIdValido) {
     const { codl: id, ...livroSemId } = livroCompleto;
-    return this.http.patch(`${this.url}/livros/${codl}`, livroSemId);
+    return this.http.patch(
+      `${this.url}/livros/${livroCompleto.codL}`
+      , livroSemId
+      , {headers: { 'Content-Type': 'application/json-patch+json' }}
+    );
   } else {
     console.log('FAZENDO CREATE (ID inválido ou não existe)');
     return this.http.post(`${this.url}/livros`, livroCompleto);
