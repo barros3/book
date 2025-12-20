@@ -59,9 +59,9 @@ export class ModalLivroComponent implements OnInit {
     // Se for modo visualização, carrega dados completos
     if (this.data.actionType === ActionType.VIEW && this.livro.codl) {
       this.loadLivroDetails();
-      this.loadRelacionamentos();
+      // this.loadRelacionamentos();
     }
-        // Carrega listas disponíveis para CREATE e EDIT
+    // Carrega listas disponíveis para CREATE e EDIT
     if (this.isEditMode) {
       this.carregarAutoresDisponiveis();
       this.carregarAssuntosDisponiveis();
@@ -135,24 +135,57 @@ export class ModalLivroComponent implements OnInit {
   }
 
   // 2. Salvar Livro (CREATE)
+  salvarLivro(): void {
+      this.isLoading = true;
+      
+      if (this.data.actionType === 'create') {
+            this.isLoading = true;
+        // Prepara objeto completo para enviar
+        const livroParaSalvar = {
+            codL: this.livro.codl,
+            ...this.livro,
+            valor: this.livro.valor,
+            autoresIds: this.selectedAutores,
+            assuntosIds: this.selectedAssuntos
+        };
 
-  // private saveLivro(): void {
-  //   this.isLoading = true;
-  //   this.livroService.save(this.livro).subscribe({
-  //     next: (response) => {
-  //       this.handleSuccess(
-  //         `Livro "${response.titulo}" cadastrado com sucesso!`,
-  //         response.createdAtLivro || this.formatDate(new Date())
-  //       );
-  //       this.isLoading = false;
-  //       this.dialogRef.close('created'); // Fecha o modal com resultado
-  //     },
-  //     error: (error) => {
-  //       this.handleError(error, 'Erro ao cadastrar livro');
-  //       this.isLoading = false;
-  //     }
-  //   });
-  // }
+        console.log('livro pra salvar', livroParaSalvar)
+          
+        console.log('Enviando livro:', livroParaSalvar);
+        this.livroService.save(livroParaSalvar).subscribe({
+          next: (response) => {
+            this.dialogRef.close('created');
+            this.isLoading = false;
+          },
+          error: (error) => {
+            console.error('Erro ao criar assunto:', error);
+            this.isLoading = false;
+          }
+        });
+      } else if (this.data.actionType === 'edit') {
+        this.livroService.update(this.livro).subscribe({
+          next: (response) => {
+            this.dialogRef.close('updated');
+            this.isLoading = false;
+          },
+          error: (error) => {
+            console.error('Erro ao atualizar assunto:', error);
+            this.isLoading = false;
+          }
+        });
+      } else if (this.data.actionType === 'delete') {
+        this.livroService.remove(this.livro!).subscribe({
+          next: (response) => {
+            this.dialogRef.close('deleted');
+            this.isLoading = false;
+          },
+          error: (error) => {
+            console.error('Erro ao remover assunto:', error);
+            this.isLoading = false;
+          }
+        });
+      }
+    }
 
   // 3. Atualizar Livro (EDIT)
   updateLivro(): void {
@@ -168,7 +201,7 @@ export class ModalLivroComponent implements OnInit {
           this.formatDate(new Date())
         );
         this.isLoading = false;
-        this.dialogRef.close('updated'); // Fecha o modal com resultado
+        this.dialogRef.close('updated');
       },
       error: (error) => {
         this.handleError(error, 'Erro ao atualizar livro');
@@ -200,33 +233,18 @@ export class ModalLivroComponent implements OnInit {
     }
   }
 
-  // Método para carregar autores e assuntos relacionados
-  private loadRelacionamentos(): void {
-    if (!this.livro.titulo) return;
-    
-    this.isLoadingRelacionamentos = true;
-    
-    this.livroService.getLivroById(this.livro.codl).subscribe({
-      next: (livro) => {
-        this.autoresRelacionados = livro.autores;
-        this.assuntosRelacionados = livro.assuntos;
-        this.isLoadingRelacionamentos = false;
-      },
-      error: (error) => {
-        console.error('Erro ao carregar autores:', error);
-        this.isLoadingRelacionamentos = false;
-      }
-    });
-  }
+  // Load dados de tela
 
-  // 5. Carregar detalhes do livro (para visualização)
+  // 1. Carregar dados em tela
   private loadLivroDetails(): void {
     if (!this.livro.codl) return;
     
     this.isLoading = true;
     this.livroService.getLivroById(this.livro.codl).subscribe({
-      next: (livroCompleto) => {
-        this.livro = livroCompleto;
+      next: (livro) => {
+        this.livro = livro;
+        this.autoresRelacionados = livro.autores;
+        this.assuntosRelacionados = livro.assuntos;
         this.isLoading = false;
       },
       error: (error) => {
@@ -235,6 +253,27 @@ export class ModalLivroComponent implements OnInit {
       }
     });
   }
+
+  // // 2. Carregar detalhes do livro (para visualização)
+  // private loadRelacionamentos(): void {
+  //   if (!this.livro.titulo) return;
+    
+  //   this.isLoadingRelacionamentos = true;
+    
+  //   this.livroService.getLivroById(this.livro.codl).subscribe({
+  //     next: (livro) => {
+  //       this.autoresRelacionados = livro.autores;
+  //       this.assuntosRelacionados = livro.assuntos;
+  //       this.isLoadingRelacionamentos = false;
+  //     },
+  //     error: (error) => {
+  //       console.error('Erro ao carregar autores:', error);
+  //       this.isLoadingRelacionamentos = false;
+  //     }
+  //   });
+  // }
+
+    // Tratamento de exceções
 
   private handleError(error: any, defaultMessage: string): void {
     console.error(defaultMessage, error);
@@ -251,6 +290,8 @@ export class ModalLivroComponent implements OnInit {
     this.openErrorModal(responseError);
   }
 
+  // Açoes do Modal
+
   private openErrorModal(error: ResponseError): void {
     const dialogRef = this.dialogError.open(ModalerrorComponent, {
       width: '500px',
@@ -266,6 +307,9 @@ export class ModalLivroComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  // Ações de tela
+
+  // Muda texto de botão de acordo com ação
   getButtonText(): string {
     switch (this.data.actionType) {
       case ActionType.VIEW: return 'Fechar';
@@ -275,7 +319,8 @@ export class ModalLivroComponent implements OnInit {
       default: return 'Salvar';
     }
   }
-
+  
+  // Muda cor de botão de acordo com ação
   getButtonColor(): string {
     switch (this.data.actionType) {
       case ActionType.DELETE: return 'btn-danger';
@@ -299,23 +344,22 @@ export class ModalLivroComponent implements OnInit {
       minute: '2-digit'
     });
   }
-    hasRelacionamentos(): boolean {
+  
+  hasRelacionamentos(): boolean {
     return this.autoresRelacionados.length > 0 || this.assuntosRelacionados.length > 0;
   }
   
 
   // INCIA TRATAMENTO DOS ASSUNTOS E AUTORES
 
-  // tratar
+  // TODO:: Implementar lógica
+  // Pode abrir outro modal ou navegar
   visualizarAutor(autor: Autor): void {
-    // Pode abrir outro modal ou navegar
     console.log('Visualizando autor:', autor);
-    // this.router.navigate(['/autor', autor.codAu]);
   }
 
   visualizarAssunto(assunto: Assunto): void {
     console.log('Visualizando assunto:', assunto);
-    // Exemplo: this.router.navigate(['/assunto', assunto.codAs]);
   }
 
   carregarAutoresDisponiveis(): void {
@@ -353,7 +397,7 @@ export class ModalLivroComponent implements OnInit {
       return o1.codAu === o2.codAu || o1.codAs === o2.codAs;
     }
     return false;
-}
+  }
 
 
 getAutorNome(autorId: number): string {
@@ -378,57 +422,6 @@ removerAssunto(assuntoId: number): void {
     this.salvarLivro();
   }
   
-  salvarLivro(): void {
-    this.isLoading = true;
-    
-    if (this.data.actionType === 'create') {
-          this.isLoading = true;
-      // Prepara objeto completo para enviar
-      const livroParaSalvar = {
-          codL: this.livro.codl,
-          ...this.livro,
-          valor: this.livro.valor,
-          autoresIds: this.selectedAutores,
-          assuntosIds: this.selectedAssuntos
-      };
-
-      console.log('livro pra salvar', livroParaSalvar)
-        
-      console.log('Enviando livro:', livroParaSalvar);
-      this.livroService.save(livroParaSalvar).subscribe({
-        next: (response) => {
-          this.dialogRef.close('created');
-          this.isLoading = false;
-        },
-        error: (error) => {
-          console.error('Erro ao criar assunto:', error);
-          this.isLoading = false;
-        }
-      });
-    } else if (this.data.actionType === 'edit') {
-      this.livroService.update(this.livro).subscribe({
-        next: (response) => {
-          this.dialogRef.close('updated');
-          this.isLoading = false;
-        },
-        error: (error) => {
-          console.error('Erro ao atualizar assunto:', error);
-          this.isLoading = false;
-        }
-      });
-    } else if (this.data.actionType === 'delete') {
-      this.livroService.remove(this.livro!).subscribe({
-        next: (response) => {
-          this.dialogRef.close('deleted');
-          this.isLoading = false;
-        },
-        error: (error) => {
-          console.error('Erro ao remover assunto:', error);
-          this.isLoading = false;
-        }
-      });
-    }
-  }
 
   onValorChange(valorFormatado: string) {
     const valorLimpo = valorFormatado

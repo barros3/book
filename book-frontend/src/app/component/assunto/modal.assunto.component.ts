@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ActionType } from 'src/app/model/action-type.enum';
 import { Assunto } from 'src/app/model/assunto.model';
 import { AssuntoService } from 'src/app/service/assunto.service';
 
@@ -18,6 +19,7 @@ export class ModalAssuntoComponent implements OnInit {
   assunto: Assunto = new Assunto();
   title: string = '';
   actionType: string = '';
+  isDeleteMode = false;
   
   isLoading = false;
   
@@ -37,10 +39,10 @@ export class ModalAssuntoComponent implements OnInit {
     this.title = data.title;
     this.assunto = { ...data.assunto };
     this.actionType = data.actionType;
+    this.isDeleteMode = data.actionType === ActionType.DELETE;
   }
 
   ngOnInit(): void {
-    // Se for visualização, garante que temos os dados completos
     if (this.isViewMode && this.assunto.codAs) {
       this.loadAssuntoDetails();
     }
@@ -109,4 +111,33 @@ export class ModalAssuntoComponent implements OnInit {
   confirmDelete(): void {
     this.salvarAssunto();
   }
+
+  removeAssunto(assunto: Assunto): void {
+    this.openModal(ActionType.DELETE, assunto);
+  }
+
+  openModal(actionType: ActionType, assunto?: Assunto): void {
+      let title = '';
+      let width = '500px';
+      
+      switch (actionType) {
+        case ActionType.VIEW:
+          title = 'Detalhes do Assunto';
+          width = '900px';
+          break;
+        case ActionType.CREATE:
+          title = 'Cadastrar Assunto';
+          width = '650px';
+          assunto = new Assunto();
+          break;
+        case ActionType.EDIT:
+          title = 'Editar Assunto';
+          width = '350px !important';
+          break;
+        case ActionType.DELETE:
+          title = 'Remover Assunto';
+          break;
+      }
+  }
+
 }

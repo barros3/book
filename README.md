@@ -87,7 +87,7 @@ Cada recurso possui operações completas de **criação, edição, listagem e r
 - Swagger (OpenAPI)
 
 ### Frontend
-- Angular 17
+- Angular 16
 - NPM
 - SPA (Single Page Application)
 - Docker
@@ -123,13 +123,7 @@ Cada recurso possui operações completas de **criação, edição, listagem e r
 cd book-root
 ```
 
-2. Suba a infraestrutura e dependências:
-
-```bash
-docker-compose up -d --build
-```
-
-3. Com a base preparada, execute novamente para subir frontend e backend:
+2. Suba a infraestrutura, dependências, frontend e backend de uma só vez com:
 
 ```bash
 docker-compose up -d --build
@@ -163,7 +157,7 @@ docker-compose up -d --build
 
 ---
 
-## 👨‍💻 Autor
+## 👨‍💻 Autor Luciano Ferreira Barros
 
 Projeto desenvolvido para fins de estudo e avaliação técnica.
 

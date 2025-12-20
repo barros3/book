@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ActionType } from 'src/app/model/action-type.enum';
 import { Autor } from 'src/app/model/autor.model';
 import { AutorService } from 'src/app/service/autor.service';
 
@@ -18,7 +19,8 @@ export class ModalAutorComponent implements OnInit {
   autor: Autor = new Autor();
   title: string = '';
   actionType: string = '';
-  
+  isDeleteMode = false;
+
   isLoading = false;
   
   get isViewMode(): boolean {
@@ -37,6 +39,7 @@ export class ModalAutorComponent implements OnInit {
     this.title = data.title;
     this.autor = { ...data.autor };
     this.actionType = data.actionType;
+    this.isDeleteMode = data.actionType === ActionType.DELETE;
   }
 
   ngOnInit(): void {
