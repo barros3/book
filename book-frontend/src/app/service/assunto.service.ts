@@ -45,7 +45,7 @@ export class AssuntoService {
   }
 
   remove(assunto: Assunto): Observable<any> {
-    return this.http.delete(`${this.url}/${assunto.id}`);
+    return this.http.delete(`${this.url}/${assunto.codAs}`);
   }
 
   normalizeAssunto(data: any): Assunto {

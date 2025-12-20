@@ -89,7 +89,7 @@ export class ModalAssuntoComponent implements OnInit {
         }
       });
     } else if (this.actionType === 'delete') {
-      this.assuntoService.remove(this.assunto!).subscribe({
+      this.assuntoService.remove(this.assunto).subscribe({
         next: (response) => {
           this.dialogRef.close('deleted');
           this.isLoading = false;

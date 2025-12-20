@@ -310,6 +310,8 @@ export class ModalLivroComponent implements OnInit {
     return this.autoresRelacionados.length > 0 || this.assuntosRelacionados.length > 0;
   }
   
+
+  // tratar
   visualizarAutor(autor: Autor): void {
     // Pode abrir outro modal ou navegar
     console.log('Visualizando autor:', autor);
@@ -349,7 +351,7 @@ export class ModalLivroComponent implements OnInit {
     });
   }
 
-  salvarLivro(): void {
+  save(): void {
     this.isLoading = true;
     
     // Prepara objeto completo para enviar
@@ -403,14 +405,24 @@ removerAssunto(assuntoId: number): void {
 }
 
   confirmDelete(): void {
-    this.salvarAssunto();
+    this.salvarLivro();
   }
   
-  salvarAssunto(): void {
+  salvarLivro(): void {
     this.isLoading = true;
     
     if (this.data.actionType === 'create') {
-      this.livroService.save(this.livro).subscribe({
+          this.isLoading = true;
+      // Prepara objeto completo para enviar
+      const livroParaSalvar = {
+          codL: this.livro.codl,
+          ...this.livro,
+          autoresIds: this.selectedAutores,
+          assuntosIds: this.selectedAssuntos
+      };
+        
+      console.log('Enviando livro:', livroParaSalvar);
+      this.livroService.save(livroParaSalvar).subscribe({
         next: (response) => {
           this.dialogRef.close('created');
           this.isLoading = false;
