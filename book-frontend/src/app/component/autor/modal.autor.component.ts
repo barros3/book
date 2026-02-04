@@ -43,7 +43,7 @@ export class ModalAutorComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Se for visualização, garante que temos os dados completos
+  
     if (this.isViewMode && this.autor.codAu) {
       this.loadAutorDetails();
     }
